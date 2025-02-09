@@ -11,54 +11,47 @@ namespace APIforVIPMVPClubs.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class TypeOfClubsController : ControllerBase
     {
         private readonly VipclubsContext _context;
 
-        public UsersController(VipclubsContext context)
+        public TypeOfClubsController(VipclubsContext context)
         {
             _context = context;
         }
 
-        // GET: api/Users
+        // GET: api/TypeOfClubs
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<TypeOfClub>>> GetTypeOfClubs()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.TypeOfClubs.ToListAsync();
         }
-        [HttpGet("Authorize")]
-        public ActionResult Authorize(string login, string password)
-        {
-            User authuser=_context.Users.FirstOrDefault(s => s.Login == login && s.Password == password);
-            if (authuser == null)
-                return NotFound();
-            return Ok(authuser);
-        }
-        // GET: api/Users/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
 
-            if (user == null)
+        // GET: api/TypeOfClubs/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<TypeOfClub>> GetTypeOfClub(int id)
+        {
+            var typeOfClub = await _context.TypeOfClubs.FindAsync(id);
+
+            if (typeOfClub == null)
             {
                 return NotFound();
             }
 
-            return user;
+            return typeOfClub;
         }
 
-        // PUT: api/Users/5
+        // PUT: api/TypeOfClubs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutTypeOfClub(int id, TypeOfClub typeOfClub)
         {
-            if (id != user.Id)
+            if (id != typeOfClub.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(typeOfClub).State = EntityState.Modified;
 
             try
             {
@@ -66,7 +59,7 @@ namespace APIforVIPMVPClubs.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!TypeOfClubExists(id))
                 {
                     return NotFound();
                 }
@@ -79,36 +72,36 @@ namespace APIforVIPMVPClubs.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
+        // POST: api/TypeOfClubs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<TypeOfClub>> PostTypeOfClub(TypeOfClub typeOfClub)
         {
-            _context.Users.Add(user);
+            _context.TypeOfClubs.Add(typeOfClub);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction("GetTypeOfClub", new { id = typeOfClub.Id }, typeOfClub);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/TypeOfClubs/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteTypeOfClub(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var typeOfClub = await _context.TypeOfClubs.FindAsync(id);
+            if (typeOfClub == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
+            _context.TypeOfClubs.Remove(typeOfClub);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserExists(int id)
+        private bool TypeOfClubExists(int id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.TypeOfClubs.Any(e => e.Id == id);
         }
     }
 }

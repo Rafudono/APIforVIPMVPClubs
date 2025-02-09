@@ -15,7 +15,11 @@ public partial class Club
 
     public byte[]? Image { get; set; }
 
+    public int IdType { get; set; }
+
     public virtual User IdBossNavigation { get; set; } = null!;
+
+    public virtual TypeOfClub IdTypeNavigation { get; set; } = null!;
 
     public virtual ICollection<User> Users { get; set; } = new List<User>();
 }

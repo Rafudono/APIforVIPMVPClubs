@@ -1,4 +1,6 @@
 
+using System.Text.Json.Serialization;
+
 namespace APIforVIPMVPClubs
 {
     public class Program
@@ -8,7 +10,7 @@ namespace APIforVIPMVPClubs
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
+            builder.Services.AddControllers().AddJsonOptions(j => j.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
