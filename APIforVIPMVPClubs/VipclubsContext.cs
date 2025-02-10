@@ -199,7 +199,6 @@ public partial class VipclubsContext : DbContext
 
             entity.HasOne(d => d.IdRoleNavigation).WithMany(p => p.Users)
                 .HasForeignKey(d => d.IdRole)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("User_Role_FK");
         });
 

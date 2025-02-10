@@ -30,6 +30,7 @@ namespace APIforVIPMVPClubs.Controllers
         public ActionResult Authorize(string login, string password)
         {
             User authuser=_context.Users.FirstOrDefault(s => s.Login == login && s.Password == password);
+            //User authuser = _context.Users.First();
             if (authuser == null)
                 return NotFound();
             return Ok(authuser);

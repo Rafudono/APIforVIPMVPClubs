@@ -19,13 +19,13 @@ public partial class User
 
     public string? Phone { get; set; }
 
-    public int IdRole { get; set; }
+    public int? IdRole { get; set; }
 
     public virtual ICollection<Application1> Application1s { get; set; } = new List<Application1>();
 
     public virtual ICollection<Club> Clubs { get; set; } = new List<Club>();
 
-    public virtual Role IdRoleNavigation { get; set; } = null!;
+    public virtual Role? IdRoleNavigation { get; set; }
 
     public virtual ICollection<Club> ClubsNavigation { get; set; } = new List<Club>();
 }
