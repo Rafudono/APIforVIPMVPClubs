@@ -26,7 +26,11 @@ namespace APIforVIPMVPClubs.Controllers
         {
             return await _context.Application1s.ToListAsync();
         }
-
+        [HttpPost("GetMyAppls")]
+        public async Task<ActionResult<List<Application1>>> GetMyAppls(User applicator)
+        {
+            return await _context.Application1s.Where(s=>s.IdApplicant==applicator.Id).ToListAsync();
+        }
         // GET: api/Application1/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Application1>> GetApplication1(int id)

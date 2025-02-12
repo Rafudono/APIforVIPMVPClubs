@@ -24,12 +24,12 @@ namespace APIforVIPMVPClubs.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users.Include(s=>s.ClubsNavigation).Include(s=>s.Clubs).ToListAsync();
         }
         [HttpGet("Authorize")]
         public ActionResult Authorize(string login, string password)
         {
-            User authuser=_context.Users.FirstOrDefault(s => s.Login == login && s.Password == password);
+            User authuser=_context.Users.Include(s => s.ClubsNavigation).Include(s => s.Clubs).Include(s=>s.Application1s).FirstOrDefault(s => s.Login == login && s.Password == password);
             //User authuser = _context.Users.First();
             if (authuser == null)
                 return NotFound();

@@ -24,9 +24,13 @@ namespace APIforVIPMVPClubs.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Club>>> GetClubs()
         {
-            return await _context.Clubs.ToListAsync();
+            return await _context.Clubs.Include(s=>s.IdBossNavigation).AsNoTracking().ToListAsync();
         }
-
+        [HttpPost("GetFiltredClubs")]
+        public async Task<ActionResult<List<Club>>> FilterClubs(TypeOfClub type) 
+        {
+            return await _context.Clubs.Include(s => s.IdBossNavigation).Where(s => s.IdType == type.Id).ToListAsync();
+        }
         // GET: api/Clubs/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Club>> GetClub(int id)
