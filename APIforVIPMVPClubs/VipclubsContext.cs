@@ -24,6 +24,8 @@ public partial class VipclubsContext : DbContext
 
     public virtual DbSet<StatusApplication> StatusApplications { get; set; }
 
+    public virtual DbSet<TypeAppl> TypeAppls { get; set; }
+
     public virtual DbSet<TypeOfClub> TypeOfClubs { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
@@ -48,6 +50,10 @@ public partial class VipclubsContext : DbContext
 
             entity.HasIndex(e => e.IdApplicant, "Application_User_FK");
 
+            entity.HasIndex(e => e.IdType, "application1_Type_appl_FK");
+
+            entity.HasIndex(e => e.IdClub, "application1_club_FK");
+
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.DateOfFiling)
                 .HasColumnType("datetime")
@@ -56,7 +62,9 @@ public partial class VipclubsContext : DbContext
                 .HasMaxLength(100)
                 .HasColumnName("description");
             entity.Property(e => e.IdApplicant).HasColumnName("idApplicant");
+            entity.Property(e => e.IdClub).HasColumnName("idClub");
             entity.Property(e => e.IdStatus).HasColumnName("idStatus");
+            entity.Property(e => e.IdType).HasColumnName("idType");
             entity.Property(e => e.Image)
                 .HasColumnType("mediumblob")
                 .HasColumnName("image");
@@ -69,10 +77,19 @@ public partial class VipclubsContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Application_User_FK");
 
+            entity.HasOne(d => d.IdClubNavigation).WithMany(p => p.Application1s)
+                .HasForeignKey(d => d.IdClub)
+                .HasConstraintName("application1_club_FK");
+
             entity.HasOne(d => d.IdStatusNavigation).WithMany(p => p.Application1s)
                 .HasForeignKey(d => d.IdStatus)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Application_Status_application_FK");
+
+            entity.HasOne(d => d.IdTypeNavigation).WithMany(p => p.Application1s)
+                .HasForeignKey(d => d.IdType)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("application1_Type_appl_FK");
         });
 
         modelBuilder.Entity<Club>(entity =>
@@ -149,6 +166,18 @@ public partial class VipclubsContext : DbContext
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.ToTable("status_application");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Title)
+                .HasMaxLength(100)
+                .HasColumnName("title");
+        });
+
+        modelBuilder.Entity<TypeAppl>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("Type_appl");
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Title)
