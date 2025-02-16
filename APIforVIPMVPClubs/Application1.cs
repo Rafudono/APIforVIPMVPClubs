@@ -23,8 +23,8 @@ public partial class Application1
     public int? IdClub { get; set; }
 
     public int IdType { get; set; }
-    public virtual User IdApplicantNavigation { get; set; } = null!;
+    public virtual User? IdApplicantNavigation { get; set; }
     public virtual Club? IdClubNavigation { get; set; }
-    public virtual StatusApplication IdStatusNavigation { get; set; } = null!;
-    public virtual TypeAppl IdTypeNavigation { get; set; } = null!;
+    public virtual StatusApplication? IdStatusNavigation { get; set; }
+    public virtual TypeAppl? IdTypeNavigation { get; set; } 
 }

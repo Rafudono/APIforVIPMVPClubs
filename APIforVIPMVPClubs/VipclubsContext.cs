@@ -148,7 +148,14 @@ public partial class VipclubsContext : DbContext
                         j.IndexerProperty<int>("UserId").HasColumnName("user_id");
                     });
         });
-
+        /*
+         int index = reader.GetOrdinal("Photo");
+                        using (var stream = reader.GetStream(index))
+                        {
+                            hum.Photo = new byte[stream.Length];
+                            stream.Read(hum.Photo, 0, (int)stream.Length);
+                        }
+         */
         modelBuilder.Entity<Role>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");

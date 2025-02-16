@@ -29,7 +29,7 @@ namespace APIforVIPMVPClubs.Controllers
         [HttpPost("GetMyAppls")]
         public async Task<ActionResult<List<Application1>>> GetMyAppls(User applicator)
         {
-            return await _context.Application1s.Where(s=>s.IdApplicant==applicator.Id).ToListAsync();
+            return await _context.Application1s.Include(s=>s.IdTypeNavigation).Include(s=>s.IdClubNavigation).Include(s=>s.IdStatusNavigation).Where(s=>s.IdApplicant==applicator.Id).ToListAsync();
         }
         // GET: api/Application1/5
         [HttpGet("{id}")]
@@ -79,12 +79,13 @@ namespace APIforVIPMVPClubs.Controllers
         // POST: api/Application1
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Application1>> PostApplication1(Application1 application1)
+        public async Task<ActionResult> PostApplication1(Appls appls)
         {
-            _context.Application1s.Add(application1);
+            Application1 application = new Application1() { IdStatus = appls.IdStatus, IdType = appls.IdType, Image = appls.Image, Title = appls.Title, Description = appls.Description, DateOfFiling = appls.DateOfFiling, IdApplicant = appls.IdApplicant };
+            _context.Application1s.Add(application);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetApplication1", new { id = application1.Id }, application1);
+            return Ok("ok");
         }
 
         // DELETE: api/Application1/5
