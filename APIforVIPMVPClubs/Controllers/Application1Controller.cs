@@ -29,7 +29,12 @@ namespace APIforVIPMVPClubs.Controllers
         [HttpPost("GetMyAppls")]
         public async Task<ActionResult<List<Application1>>> GetMyAppls(User applicator)
         {
-            return await _context.Application1s.Include(s=>s.IdTypeNavigation).Include(s=>s.IdClubNavigation).Include(s=>s.IdStatusNavigation).Where(s=>s.IdApplicant==applicator.Id).ToListAsync();
+            return await _context.Application1s.Include(s=>s.IdTypeNavigation).Include(s => s.IdApplicantNavigation).Include(s=>s.IdClubNavigation).Include(s=>s.IdStatusNavigation).Where(s=>s.IdApplicant==applicator.Id).ToListAsync();
+        }
+        [HttpPost("GetApplsAddressedToMe")]
+        public async Task<ActionResult<List<Application1>>> GetApplsAddressedToMe(User user)
+        {
+            return await _context.Application1s.Include(s => s.IdTypeNavigation).Include(s=>s.IdApplicantNavigation).Include(s => s.IdClubNavigation).Include(s => s.IdStatusNavigation).Where(s => s.IdClubNavigation.IdBoss == user.Id).ToListAsync();
         }
         // GET: api/Application1/5
         [HttpGet("{id}")]
@@ -81,7 +86,10 @@ namespace APIforVIPMVPClubs.Controllers
         [HttpPost]
         public async Task<ActionResult> PostApplication1(Appls appls)
         {
+           
             Application1 application = new Application1() { IdStatus = appls.IdStatus, IdType = appls.IdType, Image = appls.Image, Title = appls.Title, Description = appls.Description, DateOfFiling = appls.DateOfFiling, IdApplicant = appls.IdApplicant };
+            if (appls.IdClub != null)
+                application.IdClub = appls.IdClub;
             _context.Application1s.Add(application);
             await _context.SaveChangesAsync();
 

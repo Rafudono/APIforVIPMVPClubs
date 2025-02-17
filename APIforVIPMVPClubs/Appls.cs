@@ -21,7 +21,7 @@ namespace APIforVIPMVPClubs
         public DateTime DateOfFiling { get; set; }
 
         public int IdApplicant { get; set; }
-
+        public int? IdTypeClub { get; set; }
         public int? IdClub { get; set; }
 
         public int IdType { get; set; }
